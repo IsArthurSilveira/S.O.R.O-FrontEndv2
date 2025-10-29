@@ -34,9 +34,21 @@ export default function Sidebar({ children, items = [], currentProfile = 'ADMIN'
 
                 <SidebarContext.Provider value={{ expanded }}>
                     <ul className="flex-1 px-3">
-                        {visibleItems.map((item) => (
-                            <SidebarItem key={item.path} to={item.path} icon={item.icon} text={item.label} />
-                        ))}
+                        {visibleItems.map((item) => {
+                            let iconNode: React.ReactNode = null;
+                            if (React.isValidElement(item.icon)) {
+                                iconNode = item.icon;
+                            } else if (typeof item.icon === 'function') {
+                                const IconComp = item.icon as React.ComponentType<React.SVGProps<SVGSVGElement>>;
+                                iconNode = <IconComp />;
+                            } else {
+                                iconNode = item.icon as React.ReactNode;
+                            }
+
+                            return (
+                                <SidebarItem key={item.path} to={item.path} icon={iconNode} text={item.label} />
+                            );
+                        })}
                         {children}
                     </ul>
                 </SidebarContext.Provider>
