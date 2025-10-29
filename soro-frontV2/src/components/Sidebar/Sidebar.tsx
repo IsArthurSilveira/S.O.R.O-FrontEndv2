@@ -2,7 +2,8 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import logo from "../../assets/logo.svg";
-import ícone from "../../assets/Icone.svg";
+import profile from "../../assets/Profile.svg";
+import Icone from '../../assets/Icone.svg';
 import React, { createContext, useContext, useState } from "react";
 import type { NavItem } from '../../types';
 import { NavLink } from 'react-router-dom';
@@ -23,26 +24,42 @@ export default function Sidebar({ children, items = [], currentProfile = 'ADMIN'
     const [expanded, setExpanded] = useState<boolean>(true);
     const visibleItems = items.filter(i => i.allowedProfiles.includes(currentProfile));
     return (
-        <aside className="h-screen font-poppins">
+        <aside className="h-screen font-poppins ">
             <nav className="h-full flex flex-col bg-white border-r shadow-sm">
+                {/* --- Seção do Perfil --- */}
+                <div className="border-b flex items-center p-3">
+                    <img src={profile} className="w-4 h-4 rounded-md shrink-0" alt="profile" /> 
+                    <div className={`flex justify-between items-center overflow-hidden transition-all ${expanded ? "w-52 ml-3" : "w-0"} `}>
+                        <div className="leading-none"> 
+                            <h4 className="font-semibold text-sm">Maria Silva</h4> 
+                            <span className="text-[10px] text-gray-600">ADMINISTRADOR</span> 
+                        </div>
+                        <MoreVertIcon style={{ fontSize: 20 }} />
+                    </div>
+                </div>
+
+                {/* --- Seção do Logo e Botão Toggle --- */}
                 <div className="p-4 pb-2 flex justify-between items-center">
-                    <img src={logo} className={`overflow-hidden transition-all ${expanded ? "w-32" : "w-0"}`} alt="logo" />
                     <button onClick={() => setExpanded((curr) => !curr)} className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100" aria-label="Toggle sidebar">
                         {expanded ? <ChevronLeftIcon /> : <ChevronRightIcon />}
                     </button>
                 </div>
 
+                {/* --- Itens de Navegação --- */}
                 <SidebarContext.Provider value={{ expanded }}>
-                    <ul className="flex-1 px-3">
+                    <ul className="flex-1 px-3 mt-3"> 
                         {visibleItems.map((item) => {
                             let iconNode: React.ReactNode = null;
-                            if (React.isValidElement(item.icon)) {
-                                iconNode = item.icon;
-                            } else if (typeof item.icon === 'function') {
-                                const IconComp = item.icon as React.ComponentType<React.SVGProps<SVGSVGElement>>;
-                                iconNode = <IconComp />;
+                            const ic = item.icon as any;
+                            if (React.isValidElement(ic)) {
+                                iconNode = ic;
+                            } else if (typeof ic === 'string') {
+                                iconNode = <img src={ic} alt={item.label} className="w-5 h-5" />;
+                            } else if (typeof ic === 'function') {
+                                const IconComp = ic as React.ComponentType<React.SVGProps<SVGSVGElement>>;
+                                iconNode = <IconComp className="w-5 h-5" />;
                             } else {
-                                iconNode = item.icon as React.ReactNode;
+                                iconNode = ic as React.ReactNode;
                             }
 
                             return (
@@ -52,15 +69,14 @@ export default function Sidebar({ children, items = [], currentProfile = 'ADMIN'
                         {children}
                     </ul>
                 </SidebarContext.Provider>
-
-                <div className="border-t flex p-3">
-                    <img src={ícone} className="w-10 h-10 rounded-md" alt="profile" />
-                    <div className={`flex justify-between items-center overflow-hidden transition-all ${expanded ? "w-52 ml-3" : "w-0"} `}>
-                        <div className="leading-4">
-                            <h4 className="font-semibold">constGenius</h4>
-                            <span className="text-xs text-gray-600">constgenius@gmail.com</span>
-                        </div>
-                        <MoreVertIcon style={{ fontSize: 20 }} />
+                {/* logo no final da sidebar; mostra logo completo quando expandido e ícone quando colapsado */}
+                <div className="border-t flex items-center p-3">
+                    <div className="ml-auto">
+                        {expanded ? (
+                            <img src={logo} alt="logo" className="h-8" />
+                        ) : (
+                            <img src={Icone} alt="logo-icon" className="w-6 h-6" />
+                        )}
                     </div>
                 </div>
             </nav>
