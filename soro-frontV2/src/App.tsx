@@ -1,18 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Sidebar from './components/Sidebar/Sidebar';
 import type { UserData, NavItem } from './types';
+import { useTheme, useMediaQuery } from '@mui/material';
 
-// Icones
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-// ... outros ícones ...
+import DashboardIcon from '@mui/icons-material/Dashboard'; // Ícone para Dashboard
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'; // Ícone para Nova Ocorrência
+import ListAltIcon from '@mui/icons-material/ListAlt'; // Ícone para Ocorrências
+import PeopleIcon from '@mui/icons-material/People'; // Ícone para Usuários
+import PolicyIcon from '@mui/icons-material/Policy'; // Ícone para Auditoria
+import SettingsIcon from '@mui/icons-material/Settings'; // Ícone para Configurações
+import LogoutIcon from '@mui/icons-material/Logout'; // Ícone para Sair
+import FolderOpenIcon from '@mui/icons-material/FolderOpen'; // Ícone para Gerenciamento
 
-// Lista de itens
-const navigationItems: NavItem[] = [
-    { path: '/dashboard', label: 'Painel de Dados', icon: <DashboardIcon />, allowedProfiles: ['ADMIN', 'CHEFE', 'ANALISTA'], },
-    { path: '/ocorrencias/nova', label: 'Nova Ocorrência', icon: <AddCircleOutlineIcon />, allowedProfiles: ['ADMIN', 'CHEFE', 'ANALISTA'], },
-    // ... outros itens ...
+const navigationItems: NavItem[] = [ 
+  { path: '/dashboard', label: 'Painel de Dados', icon: <DashboardIcon />, allowedProfiles: ['ADMIN', 'CHEFE', 'ANALISTA'] }, 
+  { path: '/ocorrencias/nova', label: 'Nova Ocorrência', icon: <AddCircleOutlineIcon />, allowedProfiles: ['ADMIN', 'CHEFE', 'ANALISTA'] }, 
+  { path: '/ocorrencias', label: 'Ocorrências', icon: <ListAltIcon />, allowedProfiles: ['ADMIN', 'CHEFE', 'ANALISTA'] },
+  { path: '/usuarios', label: 'Usuários', icon: <PeopleIcon />, allowedProfiles: ['ADMIN'] }, 
+  { path: '/auditoria', label: 'Auditoria', icon: <PolicyIcon />, allowedProfiles: ['ADMIN'] }, 
+  { path: '/gerenciamento', label: 'Gerenciamento', icon: <FolderOpenIcon />, allowedProfiles: ['ADMIN'] }, 
+  { path: '/configuracoes', label: 'Configurações', icon: <SettingsIcon />, allowedProfiles: ['ADMIN'] }, 
+  { path: '/logout', label: 'Sair', icon: <LogoutIcon />, allowedProfiles: ['ADMIN', 'CHEFE', 'ANALISTA'] },
 ];
 
 // Simulação de usuário
@@ -25,12 +34,19 @@ const mockUser: UserData = {
 
 // Componente de Layout Principal (Pode ser o próprio App ou um componente separado)
 const MainLayout: React.FC = () => {
+    const theme = useTheme();
+    const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
+
+    // Mantém a sidebar aberta por padrão em desktop e como drawer no mobile
     const [isSidebarOpen, setSidebarOpen] = useState(false);
+    useEffect(() => setSidebarOpen(isDesktop), [isDesktop]);
+
     const handleSidebarToggle = () => setSidebarOpen(!isSidebarOpen);
     const handleSidebarClose = () => setSidebarOpen(false);
     const handleLogout = () => { console.log("Logout"); };
-return (
-        <div className="flex h-screen bg-gray-100">
+
+    return (
+        <div className="flex h-screen bg-bgWhite">
             <Sidebar
                 user={mockUser}
                 navItems={navigationItems}
@@ -38,10 +54,12 @@ return (
                 isOpen={isSidebarOpen}
                 onClose={handleSidebarClose}
             />
-            <div className="flex-1 flex flex-col overflow-hidden">
 
+            {/* Empurra o conteúdo no desktop para não ficar por baixo da sidebar */}
+            <div className="flex-1 flex flex-col overflow-hidden md:ml-72">
+                <main className="flex-1 overflow-y-auto p-6">
                 {/* --- BOTÃO DE TOGGLE PROVISÓRIO --- */}
-                <div className="bg-white shadow-md p-4 flex items-center flex-shrink-0">
+                <div className="bg-white shadow-md p-4 flex items-center shrink-0">
                     <button
                         onClick={handleSidebarToggle}
                         className="text-gray-600 focus:outline-none md:hidden mr-4" // Só aparece no mobile
@@ -51,12 +69,8 @@ return (
                             <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                         </svg>
                     </button>
-                    <h1 className="text-xl font-semibold text-gray-800">S.O.R.O</h1>
                 </div>
                 {/* --- FIM DO BOTÃO PROVISÓRIO --- */}
-
-                <main className="flex-1 bg-yellow-200 p-4"> {/* Fundo amarelo para teste */}
-                    <h1 className="text-black text-4xl">CONTEÚDO PRINCIPAL VISÍVEL?</h1>
                 </main>
             </div>
         </div>

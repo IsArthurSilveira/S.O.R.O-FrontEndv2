@@ -1,34 +1,30 @@
+// tailwind.config.js
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
     "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}", // Garante que o Tailwind procure classes nos arquivos React
+    "./src/**/*.{js,ts,jsx,tsx}", //
   ],
   theme: {
-    extend: {
-        colors: {
-        // Renomeando para refletir o uso
-        'bg': '#FFFFFF', // Cor de fundo da sidebar
-        'text': '#111827', // Um cinza bem escuro (quase preto) para o texto
-        'hover-bg': '#153499', // Cor base para o hover
-        'active-bg': '#003CFF', // Cor base para o active
+    extend: { //
+      colors: { //
+        'bgWhite': '#FFFFFF', // Cor de fundo da sidebar
+        'text': '#111827', // Cor do texto principal
+        'hover-bg': '#F3F4F6', // Cinza claro para hover (ajustado para mais sutileza)
+        'active-bg': '#E0E7FF', // Azul/Índigo bem claro para fundo ativo (ajustado)
 
-        // Mantendo cores primárias e de perigo, se precisar em outros lugares
         'soro-primary': {
-          DEFAULT: '#003CFF', // Usando o azul do active como primário
-          dark: '#002b80',    // Variação escura (exemplo)
-          light: '#6691ff',   // Variação clara (exemplo)
+          DEFAULT: '#003CFF', // Azul principal (mantido)
+          dark: '#002680', // Variação escura
+          light: '#E0E7FF', // Ex: indigo-100 do Tailwind padrão
         },
-
-        'soro-danger': {
-          DEFAULT: '#DC2626', // red-600
-          dark: '#B91C1C',    // red-700
+        'soro-danger': { 
+          DEFAULT: '#DC2626', 
+          dark: '#B91C1C', 
         },
       },
-      
-      fontFamily: {
-        // Define 'sans' como a família padrão, usando 'Poppins'
-        sans: ['Poppins', 'ui-sans-serif', 'system-ui', /* ...outros fallbacks */ ],
+      fontFamily: { //
+        sans: ['Poppins', 'ui-sans-serif', 'system-ui'], //
       },
     },
   },
