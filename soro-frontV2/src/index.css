@@ -1,1 +1,11 @@
-@import "tailwindcss";
+@import "tailwindcss/preflight";
+@import "tailwindcss/utilities";
+
+@layer base {
+  body {
+    /* @apply font-sans bg-gray-100 text-text; */ /* Comentado temporariamente */
+    font-family: Poppins, sans-serif; /* Aplicando fonte diretamente */
+    background-color: #F3F4F6; /* Cor cinza claro diretamente */
+    color: #111827; /* Cor do texto diretamente */
+  }
+}

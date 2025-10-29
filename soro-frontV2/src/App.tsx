@@ -55,9 +55,8 @@ return (
                 </div>
                 {/* --- FIM DO BOTÃO PROVISÓRIO --- */}
 
-                <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200 p-4">
-                    {/* Conteúdo da Rota */}
-                    Página Atual Aqui
+                <main className="flex-1 bg-yellow-200 p-4"> {/* Fundo amarelo para teste */}
+                    <h1 className="text-black text-4xl">CONTEÚDO PRINCIPAL VISÍVEL?</h1>
                 </main>
             </div>
         </div>
