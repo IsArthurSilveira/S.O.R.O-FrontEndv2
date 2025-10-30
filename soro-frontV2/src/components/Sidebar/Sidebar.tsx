@@ -8,15 +8,24 @@ import logo from "../../assets/logo.svg";
 interface SidebarProps {
   items: NavItem[]; 
   currentProfile?: 'ADMIN' | 'ANALISTA' | 'CHEFE'; 
+  // controla se a sidebar móvel está aberta (overlay)
+  mobileOpen?: boolean;
+  onClose?: () => void;
 }
 
-export default function Sidebar({ items = [], currentProfile = 'ADMIN' }: SidebarProps) {
+export default function Sidebar({ items = [], currentProfile = 'ADMIN', mobileOpen = false, onClose }: SidebarProps) {
   const location = useLocation();
 
   const visibleItems = items.filter(i => i.allowedProfiles.includes(currentProfile));
 
   return (
-    <aside className="w-[212px] h-screen bg-white border-r border-[rgba(6,28,67,0.24)] flex flex-col fixed left-0 top-0">
+    <>
+      {/* Backdrop para mobile quando aberto */}
+      {mobileOpen && (
+        <div className="fixed inset-0 bg-black/40 z-40 sm:hidden" onClick={onClose} />
+      )}
+
+      <aside className={`fixed top-0 left-0 h-screen z-50 bg-white border-r border-[rgba(6,28,67,0.24)] flex flex-col transition-transform duration-200 ease-in-out ${mobileOpen ? 'translate-x-0' : '-translate-x-full'} sm:translate-x-0 sm:w-[212px] w-64`}>
       
       {/* Profile Section */}
       <div className="flex items-center gap-2 px-4 py-3 mt-6">
@@ -67,5 +76,6 @@ export default function Sidebar({ items = [], currentProfile = 'ADMIN' }: Sideba
       </div>
 
     </aside>
+    </>
   );
 }
