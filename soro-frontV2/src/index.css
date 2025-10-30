@@ -1,1 +1,17 @@
-@import "tailwindcss";
+/* src/index.css */
+@import url("https://fonts.googleapis.com/css?family=Poppins:wght@400;500;600;700;800&display=swap");
+
+@import "tailwindcss/index.css";
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    /* Poppins como padrão para todo o site */
+    font-family: 'Poppins', sans-serif;
+    /* fundo e cor de texto padrão */
+    background-color: #FAFAFA; /* Cinza quase branco */
+    color: #0A1C3E; /* Azul escuro */
+  }
+}

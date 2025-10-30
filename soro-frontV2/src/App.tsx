@@ -1,35 +1,84 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// src/App.tsx
+import { useState } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import Sidebar from "./components/Sidebar/Sidebar"; 
+import navigationItems from './config/navigationItems'; 
+import Dashboard from './pages/Dashboard'; 
+import NovaOcorrencia from './pages/NovaOcorrencia'; 
+import Ocorrencias from './pages/Ocorrencias';
+import Usuarios from './pages/Usuarios'; 
+import Auditoria from './pages/Auditoria'; 
+import Gerenciamento from './pages/Gerenciamento'; 
+import Configuracoes from './pages/Configuracoes'; 
+import Sair from './pages/Logout';
+import NotFound from './pages/PlaceHolderPage'; // pagina genérica 404 / placeholder
 
 function App() {
-  const [count, setCount] = useState(0)
+  const userProfile = 'ADMINISTRADOR'; 
+  // Declarando o estado para o menu mobile
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
+
+  // Estado para o hover da sidebar no desktop
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <BrowserRouter>
+      <div className="flex min-h-screen bg-gray-50">
+        {/* Sidebar: recebe controle mobileOpen */}
+        <Sidebar 
+          items={navigationItems} 
+          currentProfile={userProfile} 
+
+          // Props para o menu Mobile 
+          mobileOpen={isMobileOpen} 
+          onClose={() => setIsMobileOpen(false)}
+
+          // Props para o menu Desktop 
+          expanded={isSidebarExpanded}
+          setExpanded={setIsSidebarExpanded}
+        />
+        
+        {/* Layout principal com margem responsiva */}
+  <main className={`flex-1 ml-0 transition-all duration-300 ease-in-out sm:ml-20 ${isSidebarExpanded ? 'sm:ml-64' : ''}`}>
+
+          {/* Header simples com botão hamburger visível em mobile */}
+          <header className="w-full bg-transparent p-3 sm:hidden border-b border-gray-100">
+            <div className="max-w-[1200px] mx-auto flex items-center">
+              <button
+                aria-label="Abrir menu"
+                onClick={() => setIsMobileOpen(true)}
+                className="p-2 rounded-md hover:bg-gray-100"
+              >
+                {/* ícone hamburger simples */}
+                <svg className="w-6 h-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+            </div>
+          </header>
+          <Routes>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/ocorrencias/nova" element={<NovaOcorrencia />} />
+            <Route path="/ocorrencias" element={<Ocorrencias />} />
+            <Route path="/usuarios" element={<Usuarios />} />
+            <Route path="/auditoria" element={<Auditoria />} />
+            <Route path="/gerenciamento" element={<Gerenciamento />} />
+            <Route path="/configuracoes" element={<Configuracoes />} />
+            <Route path="/logout" element={<Sair />} /> 
+            
+            {/* Redirecionamento da raiz */}
+            <Route path="/" element={<Navigate to="/dashboard" replace />} />
+            
+            {/* Página 404 */}
+            <Route
+              path="*"
+              element={<NotFound title="Página não encontrada" description="A página que você procura não foi encontrada." />}
+            />
+          </Routes>
+        </main>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
