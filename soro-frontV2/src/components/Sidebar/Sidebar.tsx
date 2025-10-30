@@ -6,23 +6,21 @@ import profile from "../../assets/Profile.svg";
 import logo from "../../assets/logo.svg"; 
 
 interface SidebarProps {
-  items: NavItem[]; // [cite: 13]
-  currentProfile?: 'ADMIN' | 'ANALISTA' | 'CHEFE'; // [cite: 14]
+  items: NavItem[]; 
+  currentProfile?: 'ADMIN' | 'ANALISTA' | 'CHEFE'; 
 }
 
 export default function Sidebar({ items = [], currentProfile = 'ADMIN' }: SidebarProps) {
   const location = useLocation();
-  
-  // Lógica de filtro do seu arquivo original [cite: 16-17]
+
   const visibleItems = items.filter(i => i.allowedProfiles.includes(currentProfile));
 
   return (
     <aside className="w-[212px] h-screen bg-white border-r border-[rgba(6,28,67,0.24)] flex flex-col fixed left-0 top-0">
       
-      {/* Profile Section - Estilo do Builder [cite: 518-532] */}
+      {/* Profile Section */}
       <div className="flex items-center gap-2 px-4 py-3 mt-6">
   <div className="w-[41px] h-[42px] rounded-full bg-gray-200 flex items-center justify-center border-2 border-black shrink-0">
-          {/* Usando seu ícone de profile.svg [cite: 3] */}
           <img src={profile} alt="Perfil" className="w-6 h-6" />
         </div>
         <div className="flex flex-col justify-center">
@@ -30,13 +28,12 @@ export default function Sidebar({ items = [], currentProfile = 'ADMIN' }: Sideba
             Maria Silva
           </div>
           <div className="text-[rgba(0,0,0,0.56)] font-poppins text-[8px] font-normal leading-5">
-            {/* Exibe o perfil atual dinamicamente */}
             {currentProfile}
           </div>
         </div>
       </div>
 
-      {/* Navigation - Estilo do Builder [cite: 533-561] */}
+      {/* Navigation */}
       <nav className="flex flex-col gap-3 px-3 mt-4">
         {visibleItems.map((item) => {
           const isActive = location.pathname === item.path;
