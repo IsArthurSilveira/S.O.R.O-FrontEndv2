@@ -36,8 +36,7 @@ export default function Sidebar({ items = [], currentProfile = 'ADMINISTRADOR', 
         <div aria-hidden="true" className="fixed inset-0 bg-black/40 z-40 sm:hidden" onClick={onClose} />
       )}
 
-      <aside 
-  className={`fixed top-0 left-0 h-screen z-50 bg-white border-r border-[rgba(6,28,67,0.24)] flex flex-col transition-all duration-300 ease-in-out w-64 ${mobileOpen ? 'translate-x-0' : '-translate-x-full'} sm:translate-x-0 sm:w-20 ${expanded ? 'sm:w-64!' : ''}`}
+      <aside className={`fixed top-0 left-0 h-screen z-50 bg-white border-r border-[rgba(6,28,67,0.24)] flex flex-col transition-all duration-300 ease-in-out w-64 ${mobileOpen ? 'translate-x-0' : '-translate-x-full'} sm:translate-x-0 sm:w-20 ${expanded ? 'sm:w-64!' : ''}`}
         
         // 4. Eventos de hover para controlar o estado no App.tsx
         onMouseEnter={() => setExpanded(true)}
@@ -45,12 +44,12 @@ export default function Sidebar({ items = [], currentProfile = 'ADMINISTRADOR', 
       >
       
       {/* Profile Section */}
-      <div className={`border-b flex items-center p-3 ${!expanded ? 'justify-center py-6' : 'px-4 gap-2 mt-6'}`}>
+      <div className={`border-b flex items-center p-3 ${!(expanded || mobileOpen) ? 'justify-center py-6' : 'px-4 gap-2 mt-6'}`}>
           <div className={`w-[41px] h-[42px] rounded-full bg-gray-200 flex items-center justify-center border-2 border-black shrink-0 ${!expanded && 'w-10 h-10'}`}>
             <img src={profile} alt="Perfil" className="w-6 h-6" />
           </div>
 
-        {expanded && (
+        {(expanded || mobileOpen) && (
             <div className="flex flex-col justify-center">
               <div className="text-black font-poppins text-sm font-[14px] leading-5">
                 Maria Silva
@@ -63,7 +62,7 @@ export default function Sidebar({ items = [], currentProfile = 'ADMINISTRADOR', 
       </div>
 
     {/* Navigation */}
-    <SidebarContext.Provider value={{ expanded }}>
+    <SidebarContext.Provider value={{ expanded: expanded || mobileOpen }}>
       <nav role="navigation" aria-label="Principal" className="flex-1 flex flex-col gap-1 px-3 mt-4">
             {visibleItems.map((item) => {
               const isActive = location.pathname === item.path;
@@ -94,7 +93,7 @@ export default function Sidebar({ items = [], currentProfile = 'ADMINISTRADOR', 
 
         {/* Logo Bottom: Mostra logo ou ícone baseado em 'expanded' */}
         <div className="mt-auto mb-8 flex items-center justify-center p-3">
-          {expanded ? (
+          {(expanded || mobileOpen) ? (
             <img src={logo} alt="S.O.R.O Logo" className="h-8 object-contain" />
           ) : (
             <img src={Icone} alt="S.O.R.O Icone" className="h-8 w-8 object-contain" /> 
