@@ -37,7 +37,7 @@ export default function Sidebar({ items = [], currentProfile = 'ADMINISTRADOR', 
       )}
 
       <aside 
-        className={`fixed top-0 left-0 h-screen z-50 bg-white border-r border-[rgba(6,28,67,0.24)] flex flex-col transition-all duration-300 ease-in-out w-64 ${mobileOpen ? 'translate-x-0' : '-translate-x-full'} sm:translate-x-0 sm:w-20 ${expanded ? 'sm:!w-64' : ''}`}
+  className={`fixed top-0 left-0 h-screen z-50 bg-white border-r border-[rgba(6,28,67,0.24)] flex flex-col transition-all duration-300 ease-in-out w-64 ${mobileOpen ? 'translate-x-0' : '-translate-x-full'} sm:translate-x-0 sm:w-20 ${expanded ? 'sm:w-64!' : ''}`}
         
         // 4. Eventos de hover para controlar o estado no App.tsx
         onMouseEnter={() => setExpanded(true)}
