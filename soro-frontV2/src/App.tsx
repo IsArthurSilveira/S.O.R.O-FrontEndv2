@@ -1,5 +1,5 @@
 // src/App.tsx
-import React from 'react';
+import { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Sidebar from "./components/Sidebar/Sidebar"; 
 import navigationItems from './config/navigationItems'; 
@@ -14,23 +14,39 @@ import Sair from './pages/Logout';
 import NotFound from './pages/PlaceHolderPage'; // pagina genérica 404 / placeholder
 
 function App() {
-  const userProfile = 'ADMIN'; 
-  const [sidebarOpen, setSidebarOpen] = React.useState(false);
+  const userProfile = 'ADMINISTRADOR'; 
+  // Declarando o estado para o menu mobile
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
+
+  // Estado para o hover da sidebar no desktop
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
 
   return (
     <BrowserRouter>
       <div className="flex min-h-screen bg-gray-50">
         {/* Sidebar: recebe controle mobileOpen */}
-        <Sidebar items={navigationItems} currentProfile={userProfile} mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+        <Sidebar 
+          items={navigationItems} 
+          currentProfile={userProfile} 
+
+          // Props para o menu Mobile 
+          mobileOpen={isMobileOpen} 
+          onClose={() => setIsMobileOpen(false)}
+
+          // Props para o menu Desktop 
+          expanded={isSidebarExpanded}
+          setExpanded={setIsSidebarExpanded}
+        />
         
-        {/* Layout principal com margem responsiva (sem margem em mobile, reserva no desktop) */}
-        <main className="flex-1 ml-0 sm:ml-[212px]"> 
+        {/* Layout principal com margem responsiva */}
+  <main className={`flex-1 ml-0 transition-all duration-300 ease-in-out sm:ml-20 ${isSidebarExpanded ? 'sm:ml-64' : ''}`}>
+
           {/* Header simples com botão hamburger visível em mobile */}
           <header className="w-full bg-transparent p-3 sm:hidden border-b border-gray-100">
             <div className="max-w-[1200px] mx-auto flex items-center">
               <button
                 aria-label="Abrir menu"
-                onClick={() => setSidebarOpen(true)}
+                onClick={() => setIsMobileOpen(true)}
                 className="p-2 rounded-md hover:bg-gray-100"
               >
                 {/* ícone hamburger simples */}
