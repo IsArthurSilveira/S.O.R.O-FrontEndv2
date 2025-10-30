@@ -1,8 +1,11 @@
+// src/pages/Dashboard.tsx
+import PlaceholderPage from './PlaceHolderPage';
+
 export default function Dashboard() {
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold">Dashboard</h1>
-      <p className="mt-2 text-gray-600">Página mock do painel de dados.</p>
-    </div>
-  )
+    <PlaceholderPage
+      title="Painel de Controle"
+      description="Tenha acesso às informações mais importantes, filtradas."
+    />
+  );
 }
