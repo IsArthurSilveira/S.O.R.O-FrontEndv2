@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Sidebar from "./components/Sidebar/Sidebar"; 
 import navigationItems from './config/navigationItems'; 
-import Dashboard from './pages/Dashboard'; 
+import Dashboard from './pages/Dashboard/Dashboard'; 
 import NovaOcorrencia from './pages/NovaOcorrencia'; 
 import Ocorrencias from './pages/Ocorrencias';
 import Usuarios from './pages/Usuarios'; 
