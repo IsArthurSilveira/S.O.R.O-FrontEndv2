@@ -15,3 +15,18 @@ export interface NavItem {
   icon: ReactNode | FC<SVGProps<SVGSVGElement>>;
   allowedProfiles: ('ADMINISTRADOR' | 'ANALISTA' | 'CHEFE')[];
 }
+
+// DADOS DE ENDPOINT
+//ocorrencias-por-status
+export interface KpiStatus {
+  PENDENTE?: number;
+  EM_ANDAMENTO?: number;
+  CONCLUIDO?: number;
+  CANCELADO?: number;
+}
+
+//ocorrencias-por-tipo e /ocorrencias-por-bairro
+export interface KpiCount {
+  nome: string;
+  total: number;
+}
