@@ -1,4 +1,4 @@
-// src/pages/Dashboard/PieChart.tsx
+// src/components/Dashboard/PieChart.tsx
 import type { KpiCount } from '../../types/index'; // Importando como tipo
 
 interface PieChartProps {

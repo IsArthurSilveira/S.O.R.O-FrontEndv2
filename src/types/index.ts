@@ -1,11 +1,19 @@
 // src/types/index.ts
 import type { ReactNode, FC, SVGProps } from 'react';
 
+export type UserProfile = 'ADMINISTRADOR' | 'ANALISTA' | 'CHEFE';
+
+export interface AuthUser {
+  id: string;
+  nome: string;
+  email: string;
+  tipo_perfil: UserProfile; 
+}
+
 export interface UserData {
   name: string;
-  
-  profile: 'ADMINISTRADOR' | 'ANALISTA' | 'CHEFE';
-  matricula: number | string; 
+  profile: UserProfile;
+  matricula: number;
   email: string;
 }
 
@@ -13,7 +21,7 @@ export interface NavItem {
   path: string;             
   label: string;             
   icon: ReactNode | FC<SVGProps<SVGSVGElement>>;
-  allowedProfiles: ('ADMINISTRADOR' | 'ANALISTA' | 'CHEFE')[];
+  allowedProfiles: UserProfile[];
 }
 
 // DADOS DE ENDPOINT

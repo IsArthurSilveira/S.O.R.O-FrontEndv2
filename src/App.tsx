@@ -12,19 +12,21 @@ import Gerenciamento from './pages/Gerenciamento';
 import Configuracoes from './pages/Configuracoes'; 
 import Sair from './pages/Logout';
 import NotFound from './pages/PlaceHolderPage'; // pagina genérica 404 / placeholder
+import { useAuth } from './context/AuthContext';
 
 function App() {
-  const userProfile = 'ADMINISTRADOR'; 
+  const { user } = useAuth();
+  const userProfile = user?.tipo_perfil || 'ADMINISTRADOR'; 
+
   // Declarando o estado para o menu mobile
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-
   // Estado para o hover da sidebar no desktop
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
 
   return (
     <BrowserRouter>
       <div className="flex min-h-screen bg-gray-50">
-        {/* Sidebar: recebe controle mobileOpen */}
+        {/* Sidebar */}
         <Sidebar 
           items={navigationItems} 
           currentProfile={userProfile} 

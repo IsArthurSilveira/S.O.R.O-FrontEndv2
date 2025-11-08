@@ -1,4 +1,4 @@
-// src/pages/Dashboard/BarChart.tsx
+// src/components/Dashboard/BarChart.tsx
 import type { KpiCount } from '../../types/index';
 
 interface BarChartProps {

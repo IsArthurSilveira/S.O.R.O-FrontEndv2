@@ -1,3 +1,4 @@
+// src/components/Header/Header.tsx
 import React from 'react';
 
 //Para que cada página defina o próptio titulo
