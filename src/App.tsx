@@ -1,8 +1,10 @@
 // src/App.tsx
 import { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+
 import Sidebar from "./components/Sidebar/Sidebar"; 
 import navigationItems from './config/navigationItems'; 
+
 import Dashboard from './pages/Dashboard'; 
 import NovaOcorrencia from './pages/NovaOcorrencia'; 
 import Ocorrencias from './pages/Ocorrencias';
@@ -12,6 +14,7 @@ import Gerenciamento from './pages/Gerenciamento';
 import Configuracoes from './pages/Configuracoes'; 
 import Sair from './pages/Logout';
 import NotFound from './pages/PlaceHolderPage'; // pagina genérica 404 / placeholder
+
 import { useAuth } from './context/AuthContext';
 
 function App() {

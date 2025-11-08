@@ -9,9 +9,9 @@ import BarChart from '../components/Dashboard/BarChart';
 import { ChevronDown } from 'lucide-react';
 
 import iconConcluidos from '../assets/KPI-icons/concluido.svg';
-import iconEmAndamento from '../assets/KPI-Icons/andamento.svg';
-import iconPendente from '../assets/KPI-Icons/pendente.svg';
-import iconCancelados from '../assets/KPI-Icons/cancelados.svg';
+import iconEmAndamento from '../assets/KPI-icons/andamento.svg';
+import iconPendente from '../assets/KPI-icons/pendente.svg';
+import iconCancelados from '../assets/KPI-icons/cancelado.svg';
 
 import { useAuth } from '../context/AuthContext';
 
@@ -84,7 +84,12 @@ export default function Dashboard() {
           </div>
 
           {loading ? (
-            <p>Carregando dados...</p>
+            <p className="text-muted-foreground">Carregando dados...</p>
+          ) : error ? (
+            <div className="bg-destructive/10 border border-destructive/50 text-destructive p-4 rounded-lg">
+              <h3 className="font-semibold">Erro ao carregar o dashboard</h3>
+              <p>{error}</p>
+            </div>
           ) : (
             <div className="space-y-6">
               
