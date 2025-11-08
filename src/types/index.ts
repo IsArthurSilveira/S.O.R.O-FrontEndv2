@@ -38,3 +38,11 @@ export interface KpiCount {
   nome: string;
   total: number;
 }
+
+// FEED DE ATIVIDADES
+export interface ActivityEvent {
+  id: string;   
+  type: string;    
+  description: string; 
+  timestamp: Date;
+}

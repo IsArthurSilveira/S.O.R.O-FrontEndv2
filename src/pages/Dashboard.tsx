@@ -2,6 +2,8 @@
 import { useState, useEffect } from 'react';
 import Header from '../components/Header/Header';
 import type { KpiStatus, KpiCount } from '../types/index';
+
+import ActivityFeed from '../components/Dashboard/ActivityFeed';
 import KpiCard from '../components/Dashboard/KpiCard'; 
 import PieChart from '../components/Dashboard/PieChart';
 import BarChart from '../components/Dashboard/BarChart';
@@ -16,7 +18,7 @@ import iconCancelados from '../assets/KPI-icons/cancelado.svg';
 import { useAuth } from '../context/AuthContext';
 
 export default function Dashboard() {
-  const { token } = useAuth(); // Consumir token do contexto
+  const { token } = useAuth(); 
   const [statusData, setStatusData] = useState<KpiStatus>({});
   const [tipoData, setTipoData] = useState<KpiCount[]>([]);
   const [bairroData, setBairroData] = useState<KpiCount[]>([]);
@@ -34,7 +36,7 @@ export default function Dashboard() {
       }
 
       setLoading(true);
-      setError(null); // Limpa erros anteriores
+      setError(null); 
 
       try {
         const headers = { 'Authorization': `Bearer ${token}` };
@@ -145,9 +147,7 @@ export default function Dashboard() {
           <h2 className="text-lg font-semibold text-foreground mb-4">
             Últimas Atividades
           </h2>
-          <div className="space-y-4">
-            <p className="text-sm text-muted-foreground">O feed de atividades aparecerá aqui...</p>
-          </div>
+          <ActivityFeed />
         </aside>
 
       </div>
