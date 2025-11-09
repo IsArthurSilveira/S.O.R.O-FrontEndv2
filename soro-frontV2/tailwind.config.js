@@ -59,6 +59,28 @@ export default {
           accent: '#F1F5F9', // Fundo do item em hover (cinza claro)
           border: '#E5E7EB', // Cor da borda direita da sidebar
         },
+        // ... (todo o seu código de 'sidebar')
+        sidebar: {
+          DEFAULT: '#FFFFFF',
+          foreground: '#334155',
+          accent: '#F1F5F9',
+          border: '#E5E7EB',
+        }, // <-- Fim do 'sidebar'
+        
+        // ===============================================
+        // ADICIONE ESTAS NOVAS CORES AQUI:
+        // ===============================================
+        'primary-light': '#CCD8FF',
+        'primary-dark': '#061C43',
+        'brand-green': '#589F69',
+        'brand-green-hover': '#4d8a5a', // Criei um tom mais escuro para o hover
+        
+        }, // <-- Esta é a chave de fechamento 'colors' (linha 62)
+        
+        // O resto do seu arquivo continua abaixo...
+        // Configuração do modo escuro (Dark Mode)
+        dark: {
+// ...
       },
       // Configuração do modo escuro (Dark Mode)
       // O Tailwind aplicará isso quando a classe 'dark' estiver no <html>
