@@ -33,10 +33,22 @@ export interface KpiStatus {
   CANCELADO?: number;
 }
 
-//ocorrencias-por-tipo e /ocorrencias-por-bairro
+// ocorrencias-por-tipo e /ocorrencias-por-bairro
 export interface KpiCount {
   nome: string;
   total: number;
+}
+
+// ocorrencias-por-municipio
+export type KpiMunicipio = KpiCount;
+
+// tempoMedioHoras
+export type KpiTempoMedio = KpiCount;
+
+// ocorrencias-por-periodo
+export interface KpiPeriodo {
+  data: string;  // Ex: "2025-10-01"
+  total: number; // Ex: 5
 }
 
 // FEED DE ATIVIDADES

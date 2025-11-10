@@ -1,12 +1,15 @@
 // src/pages/Dashboard.tsx
 import { useState, useEffect } from 'react';
 import Header from '../components/Header/Header';
-import type { KpiStatus, KpiCount } from '../types/index';
+import type { KpiStatus, KpiCount, KpiMunicipio, KpiPeriodo, KpiTempoMedio } from '../types/index';
 
 import ActivityFeed from '../components/Dashboard/ActivityFeed';
 import KpiCard from '../components/Dashboard/KpiCard'; 
 import PieChart from '../components/Dashboard/PieChart';
 import BarChart from '../components/Dashboard/BarChart';
+// import MunicipioPieChart from '../components/Dashboard/MunicipioPieChart';
+// import PeriodoLineChart from '../components/Dashboard/PeriodoLineChart';
+// import TempoMedioBarChart from '../components/Dashboard/TempoMedioBarChart';
 
 import { ChevronDown } from 'lucide-react';
 
@@ -19,48 +22,71 @@ import { useAuth } from '../context/AuthContext';
 
 export default function Dashboard() {
   const { token } = useAuth(); 
+
   const [statusData, setStatusData] = useState<KpiStatus>({});
   const [tipoData, setTipoData] = useState<KpiCount[]>([]);
   const [bairroData, setBairroData] = useState<KpiCount[]>([]);
+  const [municipioData, setMunicipioData] = useState<KpiMunicipio[]>([]);
+  const [periodoData, setPeriodoData] = useState<KpiPeriodo[]>([]);
+  const [tempoMedioData, setTempoMedioData] = useState<KpiTempoMedio[]>([]);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null); // Estado de erro
 
   // useEffect para buscar dados
   useEffect(() => {
     const fetchData = async () => {
-      // Só busca dados se o token existir
       if (!token) {
         setLoading(false);
-        setError("Autenticação necessária."); // Define erro se não houver token
+        setError("Autenticação necessária.");
         return;
       }
 
       setLoading(true);
-      setError(null); 
-
+      setError(null);
+      
       try {
         const headers = { 'Authorization': `Bearer ${token}` };
+        
+        const apiBaseUrl = import.meta.env.VITE_API_URL;
 
-        const [statusRes, tipoRes, bairroRes] = await Promise.all([
-          fetch('/api/v1/dashboard/ocorrencias-por-status', { headers }),
-          fetch('/api/v1/dashboard/ocorrencias-por-tipo', { headers }),
-          fetch('/api/v1/dashboard/ocorrencias-por-bairro', { headers })
+        const [
+          statusRes, 
+          tipoRes, 
+          bairroRes,
+          municipioRes,
+          periodoRes,
+          tempoMedioRes
+        ] = await Promise.all([
+          fetch(`${apiBaseUrl}/api/v2/dashboard/ocorrencias-por-status`, { headers }),
+          fetch(`${apiBaseUrl}/api/v2/dashboard/ocorrencias-por-tipo`, { headers }),
+          fetch(`${apiBaseUrl}/api/v2/dashboard/ocorrencias-por-bairro`, { headers }),
+          fetch(`${apiBaseUrl}/api/v2/dashboard/ocorrencias-por-municipio`, { headers }),
+          fetch(`${apiBaseUrl}/api/v2/dashboard/ocorrencias-por-periodo`, { headers }),
+          fetch(`${apiBaseUrl}/api/v2/dashboard/avg-completion-time`, { headers }),
         ]);
 
-        // Checagem de falha na API
-        if (!statusRes.ok || !tipoRes.ok || !bairroRes.ok) {
+        // Lógica de verificação de erro
+        if (!statusRes.ok || !tipoRes.ok || !bairroRes.ok || !municipioRes.ok || !periodoRes.ok || !tempoMedioRes.ok) {
           throw new Error('Falha ao buscar um ou mais recursos do dashboard.');
         }
 
+        // Armazena os dados nos estados
         setStatusData(await statusRes.json());
-        setTipoData(await tipoRes.json());
+        setTipoData(await tipoRes.json()); 
         setBairroData(await bairroRes.json());
+        setMunicipioData(await municipioRes.json());
+        setPeriodoData(await periodoRes.json());
+        setTempoMedioData(await tempoMedioRes.json());
+
       } catch (error) {
         console.error("Erro ao buscar dados do dashboard:", error);
+        setError(error instanceof Error ? error.message : "Erro desconhecido");
       } finally {
         setLoading(false);
       }
     };
+
     fetchData();
   }, [token]);
 
@@ -128,16 +154,40 @@ export default function Dashboard() {
               </div>
 
               {/* Gráficos */}
+              {/* Linha e Pizza */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="bg-card p-6 rounded-lg shadow-md border border-border">
-                  <h3 className="text-xl font-semibold mb-4 text-foreground">Ocorrências por Tipo</h3>
-                  <PieChart data={tipoData} />
+                  <h3 className="text-xl font-semibold mb-4 text-foreground">Ocorrências por Período</h3>
+                  
+                  {/* PeriodoLineChart */}
+                  <p className="text-center text-muted-foreground">[Placeholder Gráfico de Linha]</p>
+                </div>
+                <div className="bg-card p-6 rounded-lg shadow-md border border-border">
+                  <h3 className="text-xl font-semibold mb-4 text-foreground">Ocorrências por Município</h3>
+                  
+                  {/* MunicipioPieChart */}
+                  <p className="text-center text-muted-foreground">[Placeholder Gráfico de Pizza]</p>
+                </div>
+              </div>
+              
+              {/* Tempo Médio e Top Bairros (Barra) */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                 <div className="bg-card p-6 rounded-lg shadow-md border border-border">
+                  <h3 className="text-xl font-semibold mb-4 text-foreground">Tempo Médio de Conclusão (Horas)</h3>
+                  <p className="text-center text-muted-foreground">[Placeholder Gráfico de Tempo Médio]</p>
                 </div>
                 <div className="bg-card p-6 rounded-lg shadow-md border border-border">
                   <h3 className="text-xl font-semibold mb-4 text-foreground">Top 7 Bairros</h3>
-                  <BarChart data={bairroData} />
+                  <BarChart data={bairroData} /> 
                 </div>
               </div>
+
+               {/* Barras Laterais (Top Bairros) */}
+               <div className="bg-card p-6 rounded-lg shadow-md border border-border">
+                  <h3 className="text-xl font-semibold mb-4 text-foreground">Ocorrências por Tipo</h3>
+                  <PieChart data={tipoData} /> 
+                </div>
+
             </div>
           )}
         </main>

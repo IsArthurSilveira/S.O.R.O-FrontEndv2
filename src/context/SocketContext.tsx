@@ -1,10 +1,11 @@
+//src/context/SocketContext.tsx
 import { createContext, useContext, useEffect, useState } from 'react';
 import type {ReactNode} from 'react'
 import io, { type Socket } from "socket.io-client";
 import { useAuth } from './AuthContext'; 
 
 // URL da API
-const API_URL = import.meta.env.VITE_API_URL;
+const apiBaseUrl = import.meta.env.VITE_API_URL;
 
 // Tipo do Contexto
 interface SocketContextType {
@@ -22,9 +23,9 @@ export function SocketProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     // Só tenta conectar se tivermos um token e a URL estiver definida
-    if (token && API_URL) {
+    if (token && apiBaseUrl) {
       // Estabelece a conexão
-      const newSocket = io(API_URL);
+      const newSocket = io(apiBaseUrl);
 
       setSocket(newSocket);
 
